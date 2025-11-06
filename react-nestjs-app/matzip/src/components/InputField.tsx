@@ -3,16 +3,17 @@ import {StyleSheet, Text, TextInput, TextInputProps, View} from 'react-native';
 
 interface InputFieldProps extends TextInputProps {
   error?: string;
+  touched?: boolean;
 }
 
-function InputField({error, ...props}: InputFieldProps) {
+function InputField({error, touched, ...props}: InputFieldProps) {
   return (
     <View>
       <TextInput
         style={[styles.input, error && styles.inputError]}
         {...props}
       />
-      {Boolean(error) && <Text style={styles.error}>{error}</Text>}
+      {touched && Boolean(error) && <Text style={styles.error}>{error}</Text>}
     </View>
   );
 }

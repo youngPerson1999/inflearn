@@ -14,6 +14,9 @@ const AuthStack = createStackNavigator({
       backgroundColor: colors.WHITE,
       shadowColor: colors.GRAY_500,
     },
+    cardStyle: {
+      backgroundColor: colors.WHITE,
+    },
   },
   screens: {
     AuthHome: {
