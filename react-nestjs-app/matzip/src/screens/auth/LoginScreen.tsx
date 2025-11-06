@@ -1,14 +1,16 @@
 import CustomButton from '@/components/CustomButton';
 import InputField from '@/components/InputField';
 import useForm from '@/hooks/useForm';
+import {validateLogin} from '@/utils/validation';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 
 function LoginScreen() {
-  const {getTextInputProps, touched} = useForm({
+  const {getTextInputProps, touched, errors} = useForm({
     initialValues: {
       email: '',
       password: '',
     },
+    validate: validateLogin,
   });
   return (
     <SafeAreaView style={styles.container}>
@@ -17,12 +19,14 @@ function LoginScreen() {
           placeholder="이메일"
           keyboardType="email-address"
           touched={touched.email}
+          error={errors.email}
           {...getTextInputProps('email')}
         />
         <InputField
           placeholder="비밀번호"
           secureTextEntry
           touched={touched.password}
+          error={errors.password}
           {...getTextInputProps('password')}
         />
       </View>
