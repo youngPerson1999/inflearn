@@ -55,7 +55,8 @@ const MainDrawer = createDrawerNavigator({
       drawerActiveBackgroundColor: colors.PINK_700,
       drawerInactiveTintColor: colors.GRAY_500,
       drawerInactiveBackgroundColor: colors.GRAY_100,
-      drawerIcon: ({focused}) => DrawerIcons(route.name, focused),
+      drawerIcon: ({focused}) =>
+        DrawerIcons(route.name as keyof MainDrawerParamList, focused),
 
       headerTitleAlign: 'center',
       headerBackButtonDisplayMode: 'minimal',
