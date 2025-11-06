@@ -16,7 +16,12 @@ const AuthStack = createStackNavigator({
     },
   },
   screens: {
-    AuthHome: AuthHomeScreen,
+    AuthHome: {
+      screen: AuthHomeScreen,
+      options: {
+        headerShown: false,
+      },
+    },
     Login: LoginScreen,
     Signup: SignupScreen,
   },
