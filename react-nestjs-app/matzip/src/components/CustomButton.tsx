@@ -29,7 +29,7 @@ function CustomButton({
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 3,
+    borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
   },
