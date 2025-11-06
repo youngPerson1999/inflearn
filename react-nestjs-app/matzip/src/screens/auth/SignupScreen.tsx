@@ -1,13 +1,29 @@
-import {SafeAreaView, StyleSheet, Text} from 'react-native';
+import CustomButton from '@/components/CustomButton';
+import InputField from '@/components/InputField';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 
 function SignupScreen() {
   return (
-    <SafeAreaView>
-      <Text>SignupScreen</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.inputContainer}>
+        <InputField placeholder="이메일" keyboardType="email-address" />
+        <InputField placeholder="비밀번호" secureTextEntry />
+        <InputField placeholder="비밀번호 확인" secureTextEntry />
+      </View>
+      <CustomButton label="회원가입" size="large" variant="filled" />
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    margin: 30,
+  },
+  inputContainer: {
+    gap: 20,
+    marginBottom: 30,
+  },
+});
 
 export default SignupScreen;
