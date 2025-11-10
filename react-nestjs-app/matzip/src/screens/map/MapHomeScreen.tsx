@@ -1,23 +1,14 @@
-import {SafeAreaView, StyleSheet, Text} from 'react-native';
-import DrawerButton from '@/components/DrawerButton';
-import useAuth from '@/hooks/useAuth';
-import CustomButton from '@/components/CustomButton';
+import {StyleSheet} from 'react-native';
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 
 function MapHomeScreen() {
-  const {logoutMutation} = useAuth();
-  return (
-    <SafeAreaView>
-      <Text>MapHomeScreen</Text>
-      <DrawerButton />
-      <CustomButton
-        label="로그아웃"
-        size="large"
-        onPress={() => logoutMutation.mutate(null)}
-      />
-    </SafeAreaView>
-  );
+  return <MapView style={styles.container} provider={PROVIDER_GOOGLE} />;
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default MapHomeScreen;

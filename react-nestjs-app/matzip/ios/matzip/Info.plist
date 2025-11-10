@@ -32,7 +32,13 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string>위치 접근 권한 동의가 필요합니다. 동의할 경우, 현재 위치의 장소를 등록하는데 사용됩니다. 설정에서 이를 변경 가능합니다. 위치 정보는 서버로 전송되지 않습니다.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>위치 접근 권한 동의가 필요합니다. 동의할 경우, 현재 위치의 장소를 등록하는데 사용됩니다. 설정에서 이를 변경 가능합니다. 위치 정보는 서버로 전송되지 않습니다.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>위치 접근 권한 동의가 필요합니다. 동의할 경우, 현재 위치의 장소를 등록하는데 사용됩니다. 설정에서 이를 변경 가능합니다. 위치 정보는 서버로 전송되지 않습니다.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>모션 및 피트니스 활동에 대한 접근 권한 동의가 필요합니다. 동의할 경우, 현재 사용자의 활동 정보를 수집하는데 사용됩니다. 설정에서 이를 변경 가능합니다.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
