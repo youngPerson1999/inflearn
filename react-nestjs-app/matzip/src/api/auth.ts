@@ -1,64 +1,55 @@
-import {Profile} from '@/types/domain';
+import {Category, Profile} from '@/types/domain';
 import axiosInstance from './axios';
-import EncryptedStorage from 'react-native-encrypted-storage';
+import {getEncryptStorage} from '@/utils/encryptStorage';
 
-type RequestSignup = {
+type RequestUser = {
   email: string;
   password: string;
 };
 
-async function postSignup({email, password}: RequestSignup): Promise<void> {
-  await axiosInstance({
-    method: 'POST',
-    url: 'auth/signup',
-    data: {email, password},
-  });
-}
+const postSignup = async ({email, password}: RequestUser): Promise<void> => {
+  const {data} = await axiosInstance.post('/auth/signup', {email, password});
+
+  return data;
+};
 
 type ResponseToken = {
   accessToken: string;
   refreshToken: string;
 };
 
-async function postLogin({
+const postLogin = async ({
   email,
   password,
-}: RequestSignup): Promise<ResponseToken> {
-  const {data} = await axiosInstance({
-    method: 'POST',
-    url: 'auth/signin',
-    data: {email, password},
-  });
-  return data;
-}
+}: RequestUser): Promise<ResponseToken> => {
+  const {data} = await axiosInstance.post('/auth/signin', {email, password});
 
-async function getProfile(): Promise<Profile> {
-  const {data} = await axiosInstance({
-    method: 'GET',
-    url: 'auth/profile',
-  });
   return data;
-}
+};
 
-async function getAccessToken(): Promise<ResponseToken> {
-  const refreshToken = await EncryptedStorage.getItem('refreshToken');
-  const {data} = await axiosInstance({
-    method: 'GET',
-    url: 'refresh',
+type ResponseProfile = Profile & Category;
+
+const getProfile = async (): Promise<ResponseProfile> => {
+  const {data} = await axiosInstance.get('/auth/me');
+
+  return data;
+};
+
+const getAccessToken = async (): Promise<ResponseToken> => {
+  const refreshToken = await getEncryptStorage('refreshToken');
+
+  const {data} = await axiosInstance.get('/auth/refresh', {
     headers: {
       Authorization: `Bearer ${refreshToken}`,
     },
   });
 
   return data;
-}
+};
 
-async function logout(): Promise<void> {
-  await axiosInstance({
-    method: 'POST',
-    url: 'auth/logout',
-  });
-  //   await EncryptedStorage.removeItem('refreshToken');
-}
+const logout = async () => {
+  await axiosInstance.post('/auth/logout');
+};
 
 export {postSignup, postLogin, getProfile, getAccessToken, logout};
+export type {RequestUser, ResponseToken, ResponseProfile};

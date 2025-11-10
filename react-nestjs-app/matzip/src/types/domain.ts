@@ -10,6 +10,11 @@ interface Marker {
   color: string;
   score: number;
 }
+type MarkerColor = 'RED' | 'YELLOW' | 'GREEN' | 'BLUE' | 'PURPLE';
+
+type Category = {
+  [key in MarkerColor]: string;
+};
 
 interface Post extends Marker {
   title: string;
@@ -28,4 +33,4 @@ interface Profile {
   loginType: 'email' | 'kakao' | 'apple';
 }
 
-export type {ImageUri, Marker, Post, Profile};
+export type {ImageUri, Marker, Post, Profile, Category, MarkerColor};

@@ -16,8 +16,4 @@ async function removeEncryptStorage(key: string): Promise<void> {
   }
 }
 
-export default {
-  set: setEncryptStorage,
-  get: getEncryptStorage,
-  remove: removeEncryptStorage,
-};
+export {setEncryptStorage, getEncryptStorage, removeEncryptStorage};
