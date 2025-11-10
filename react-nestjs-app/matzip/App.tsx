@@ -5,7 +5,7 @@ import queryClient from '@/api/queryClient';
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <RootNavigation />;
+      <RootNavigation />
     </QueryClientProvider>
   );
 }
