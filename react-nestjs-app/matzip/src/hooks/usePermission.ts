@@ -1,20 +1,31 @@
+import {alerts} from '@/constants/messages';
 import {useEffect} from 'react';
 import {Alert, Linking, Platform} from 'react-native';
-import {check, request, RESULTS} from 'react-native-permissions';
+import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 
-function usePermission() {
+type PermissionType = 'LOCATION' | 'PHOTO';
+const androidPermissions = {
+  LOCATION: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+  PHOTO: PERMISSIONS.ANDROID.READ_MEDIA_IMAGES,
+};
+const iosPermissions = {
+  LOCATION: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+  PHOTO: PERMISSIONS.IOS.PHOTO_LIBRARY,
+};
+
+function usePermission(type: PermissionType) {
   useEffect(() => {
     (async () => {
       const isAndroid = Platform.OS === 'android';
       const permissionOS = isAndroid
-        ? 'android.permission.ACCESS_FINE_LOCATION'
-        : 'ios.permission.LOCATION_WHEN_IN_USE';
+        ? androidPermissions[type]
+        : iosPermissions[type];
       const checked = await check(permissionOS);
-      console.log('permission check', checked);
+
       const showPermissionAlert = () => {
         Alert.alert(
-          '위치 권한 허용 필요',
-          '서비스 이용을 위해 위치 권한이 필요합니다. 설정에서 위치 권한을 허용해주세요.',
+          alerts[`${type}_PERMISSION`].title,
+          alerts[`${type}_PERMISSION`].message,
           [
             {
               text: '설정하기',
@@ -40,7 +51,7 @@ function usePermission() {
           break;
       }
     })();
-  }, []);
+  }, [type]);
 }
 
 export default usePermission;
