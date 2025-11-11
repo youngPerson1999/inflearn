@@ -1,6 +1,7 @@
 import DrawerButton from '@/components/DrawerButton';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
+import usePermission from '@/hooks/usePermission';
 import useUserLocation from '@/hooks/useUserLocation';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import {useRef} from 'react';
@@ -12,6 +13,7 @@ function MapHomeScreen() {
   const inset = useSafeAreaInsets();
   const mapRef = useRef<MapView>(null);
   const {userLocation, isUserLocationError} = useUserLocation();
+  usePermission();
 
   const moveMapView = (coords: LatLng) => {
     mapRef.current?.animateToRegion({
