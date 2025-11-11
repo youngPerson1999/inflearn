@@ -21,6 +21,7 @@ function LoginScreen() {
     const {email, password} = values;
     loginMutation.mutate({email, password});
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.inputContainer}>
