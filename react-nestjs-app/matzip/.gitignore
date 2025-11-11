@@ -22,8 +22,7 @@ DerivedData
 *.xcuserstate
 **/.xcode.env.local
 # iOS build config (개인 키/환경 분리용)
-ios/Config/Debug.xcconfig
-ios/Config/Release.xcconfig
+ios/Config/
 
 # Android/IntelliJ
 #
