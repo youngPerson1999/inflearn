@@ -95,3 +95,21 @@ To learn more about React Native, take a look at the following resources:
 - [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+
+# env 설정
+
+android - .env에 추가 후
+AndroidManifest.xml에 추가
+<meta-data android:name="" android:value="@string/key_name>
+
+ios - xcode Project - debug, release의 none -> config변경
+xcode -> product -> scheme -> edit scheme -> build -> pre-actions -> add(+) -> new run script action
+
+```bash
+# Type a script or drag a script file from your workspace to insert its path.
+cp "${PROJRCT_DIR}/.env"
+
+
+"${SRCROOT/../node_modules/react-native-config/ios/ReactNative/Config/BuildXCCOnfig.rb"
+    "${SRCROOT/tmp.xcconfig"
+```
