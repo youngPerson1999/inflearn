@@ -13,7 +13,6 @@ function MapHomeScreen() {
   const inset = useSafeAreaInsets();
   const mapRef = useRef<MapView>(null);
   const {userLocation, isUserLocationError} = useUserLocation();
-  usePermission();
 
   const moveMapView = (coords: LatLng) => {
     mapRef.current?.animateToRegion({
@@ -41,6 +40,7 @@ function MapHomeScreen() {
       />
       <MapView
         ref={mapRef}
+        googleMapId="ddf3d475f5bf3ae9b1d61731"
         style={styles.container}
         provider={PROVIDER_GOOGLE}
         region={{
