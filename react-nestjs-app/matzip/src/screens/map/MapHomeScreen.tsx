@@ -1,29 +1,32 @@
 import DrawerButton from '@/components/DrawerButton';
 import {colors} from '@/constants/colors';
-import Geolocation from '@react-native-community/geolocation';
-import {useEffect, useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {numbers} from '@/constants/numbers';
+import useUserLocation from '@/hooks/useUserLocation';
+import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
+import {useRef} from 'react';
+import {Pressable, StyleSheet, View} from 'react-native';
 import MapView, {LatLng, PROVIDER_GOOGLE} from 'react-native-maps';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 function MapHomeScreen() {
   const inset = useSafeAreaInsets();
-  const [userLocation, setUserLocation] = useState<LatLng>();
-  const [isUserLocationError, setIsUserLocationError] = useState(false);
+  const mapRef = useRef<MapView>(null);
+  const {userLocation, isUserLocationError} = useUserLocation();
 
-  useEffect(() => {
-    Geolocation.getCurrentPosition(
-      position => {
-        const {latitude, longitude} = position.coords;
-        setUserLocation({latitude, longitude});
-      },
-      error => {
-        console.error(error);
-        setIsUserLocationError(true);
-      },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-    );
-  }, []);
+  const moveMapView = (coords: LatLng) => {
+    mapRef.current?.animateToRegion({
+      ...coords,
+      ...numbers.INITIAL_DELTA,
+    });
+  };
+
+  const handlePressUserLocation = () => {
+    if (isUserLocationError) {
+      return;
+    }
+    moveMapView(userLocation!);
+  };
+
   return (
     <>
       <DrawerButton
@@ -34,7 +37,25 @@ function MapHomeScreen() {
         ]}
         color={colors.GRAY_500}
       />
-      <MapView style={styles.container} provider={PROVIDER_GOOGLE} />
+      <MapView
+        ref={mapRef}
+        style={styles.container}
+        provider={PROVIDER_GOOGLE}
+        region={{
+          ...userLocation,
+          ...numbers.INITIAL_DELTA,
+        }}
+      />
+      <View style={styles.buttonList}>
+        <Pressable style={styles.mapButton} onPress={handlePressUserLocation}>
+          <FontAwesome6
+            name="location-crosshairs"
+            iconStyle="solid"
+            size={25}
+            color={colors.WHITE}
+          />
+        </Pressable>
+      </View>
     </>
   );
 }
@@ -51,6 +72,22 @@ const styles = StyleSheet.create({
     padding: 5,
     opacity: 0.9,
     boxShadow: '1px 1px 3px rgba(0, 0, 0, 0.2)',
+  },
+  buttonList: {
+    position: 'absolute',
+    zIndex: 1,
+    bottom: 30,
+    right: 20,
+  },
+  mapButton: {
+    backgroundColor: colors.PINK_700,
+    marginVertical: 5,
+    height: 45,
+    width: 45,
+    borderRadius: 45,
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxShadow: '1px 1px 3px rgba(0, 0, 0, 0.3)',
   },
 });
 
