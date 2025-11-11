@@ -8,11 +8,13 @@ import {useRef} from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import MapView, {LatLng, PROVIDER_GOOGLE} from 'react-native-maps';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 
 function MapHomeScreen() {
   const inset = useSafeAreaInsets();
   const mapRef = useRef<MapView>(null);
   const {userLocation, isUserLocationError} = useUserLocation();
+  usePermission('LOCATION');
 
   const moveMapView = (coords: LatLng) => {
     mapRef.current?.animateToRegion({
@@ -23,6 +25,11 @@ function MapHomeScreen() {
 
   const handlePressUserLocation = () => {
     if (isUserLocationError) {
+      Toast.show({
+        type: 'error',
+        text1: '위치 정보를 가져올 수 없습니다.',
+        position: 'bottom',
+      });
       return;
     }
     moveMapView(userLocation!);

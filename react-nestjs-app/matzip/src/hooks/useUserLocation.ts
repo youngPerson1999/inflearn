@@ -16,6 +16,7 @@ function useUserLocation() {
       position => {
         const {latitude, longitude} = position.coords;
         setUserLocation({latitude, longitude});
+        setIsUserLocationError(false);
       },
       error => {
         console.error(error);
