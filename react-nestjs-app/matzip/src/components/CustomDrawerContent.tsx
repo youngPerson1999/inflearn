@@ -12,7 +12,7 @@ import {
   View,
 } from 'react-native';
 import {colors} from '@/constants/colors';
-import useAuth from '@/hooks/useAuth';
+import useAuth from '@/hooks/queries/useAuth';
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
   const {auth} = useAuth();

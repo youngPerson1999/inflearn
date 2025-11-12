@@ -1,4 +1,4 @@
-import useAuth from '@/hooks/useAuth';
+import useAuth from '@/hooks/queries/useAuth';
 import AuthNavigation from './AuthNavigation';
 import DrawerNavigation from './DrawerNavigation';
 

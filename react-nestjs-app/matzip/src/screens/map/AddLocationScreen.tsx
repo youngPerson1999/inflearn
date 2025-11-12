@@ -7,6 +7,7 @@ import ScoreInput from '@/components/ScoreInput';
 import {colors} from '@/constants/colors';
 import useForm from '@/hooks/useForm';
 import useGetAddress from '@/hooks/useGetAddress';
+import useImagePicker from '@/hooks/useImagePicker';
 import {MapStackParamList} from '@/types/navigation';
 import {getDateWithSeparator} from '@/utils/date';
 import {validateAddPost} from '@/utils/validation';
@@ -14,7 +15,6 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {useState} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import ImagePicker from 'react-native-image-crop-picker';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type Props = StackScreenProps<MapStackParamList, 'AddLocation'>;
@@ -34,18 +34,10 @@ function AddLocationScreen({route}: Props) {
     validate: validateAddPost,
   });
   const [openDate, setOpenDate] = useState(false);
+  const {hadleChangeImage} = useImagePicker();
+
   const handleSubmit = () => {};
 
-  const hadleChangeImage = () => {
-    ImagePicker.openPicker({
-      mediaType: 'photo',
-      multiple: true,
-      includeBase64: true,
-      maxFiles: 5,
-    }).then(images => {
-      console.log(images);
-    });
-  };
   return (
     <>
       <ScrollView
