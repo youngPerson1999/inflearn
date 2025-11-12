@@ -13,7 +13,12 @@ function InputField({ref, error, touched, ...props}: InputFieldProps) {
     <View>
       <TextInput
         ref={ref}
-        style={[styles.input, touched && Boolean(error) && styles.inputError]}
+        placeholderTextColor={colors.GRAY_500}
+        style={[
+          styles.input,
+          props.multiline && styles.multiline,
+          touched && Boolean(error) && styles.inputError,
+        ]}
         spellCheck={false}
         autoCapitalize="none"
         autoComplete="off"
@@ -43,6 +48,11 @@ const styles = StyleSheet.create({
     color: colors.RED_500,
     fontSize: 12,
     paddingTop: 5,
+  },
+  multiline: {
+    height: 150,
+    paddingVertical: 10,
+    textAlignVertical: 'top',
   },
 });
 
