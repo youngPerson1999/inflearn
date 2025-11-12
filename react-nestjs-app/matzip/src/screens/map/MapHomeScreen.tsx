@@ -2,10 +2,11 @@ import CustomMarker from '@/components/CustomMarker';
 import DrawerButton from '@/components/DrawerButton';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
+import useMoveMapView from '@/hooks/useMoveMapView';
 import usePermission from '@/hooks/usePermission';
 import useUserLocation from '@/hooks/useUserLocation';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
-import {useRef, useState} from 'react';
+import {useState} from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import MapView, {LatLng, PROVIDER_GOOGLE} from 'react-native-maps';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -13,17 +14,10 @@ import Toast from 'react-native-toast-message';
 
 function MapHomeScreen() {
   const inset = useSafeAreaInsets();
-  const mapRef = useRef<MapView>(null);
   const {userLocation, isUserLocationError} = useUserLocation();
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
+  const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   usePermission('LOCATION');
-
-  const moveMapView = (coords: LatLng) => {
-    mapRef.current?.animateToRegion({
-      ...coords,
-      ...numbers.INITIAL_DELTA,
-    });
-  };
 
   const handlePressUserLocation = () => {
     if (isUserLocationError) {
@@ -37,6 +31,9 @@ function MapHomeScreen() {
     moveMapView(userLocation!);
   };
 
+  const handlePressMarker = (coordinate: LatLng) => {
+    moveMapView(coordinate);
+  };
   return (
     <>
       <DrawerButton
@@ -58,12 +55,14 @@ function MapHomeScreen() {
         }}
         onLongPress={({nativeEvent}) =>
           setSelectedLocation(nativeEvent.coordinate)
-        }>
+        }
+        onRegionChangeComplete={handleChangeDelta}>
         {selectedLocation && (
           <CustomMarker
             color={colors.PINK_400}
             coordinate={selectedLocation}
             score={3}
+            onPress={() => handlePressMarker(selectedLocation)}
           />
         )}
       </MapView>
