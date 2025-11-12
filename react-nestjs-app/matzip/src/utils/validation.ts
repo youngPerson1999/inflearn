@@ -47,14 +47,18 @@ function validateSignup(
   return signupErrors;
 }
 
-function validateAddPost(values: {title: string}) {
+function validateAddPost(values: {title: string; date: Date}) {
   const errors = {
     title: '',
     description: '',
+    date: '',
   };
 
   if (values.title.trim() === '') {
     errors.title = '제목은 1-30자 이내로 해주세요';
+  }
+  if (!values.date) {
+    errors.date = '날짜를 선택해주세요';
   }
   return errors;
 }
