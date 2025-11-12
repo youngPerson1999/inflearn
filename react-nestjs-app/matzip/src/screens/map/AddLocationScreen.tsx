@@ -3,6 +3,7 @@ import FixedBottomCTA from '@/components/FixedBottomCTA';
 import ImageInput from '@/components/ImageInput';
 import InputField from '@/components/InputField';
 import MarkerColorInput from '@/components/MarkerColorInput';
+import PreviewImageList from '@/components/PreviewImageList';
 import ScoreInput from '@/components/ScoreInput';
 import {colors} from '@/constants/colors';
 import useForm from '@/hooks/useForm';
@@ -13,7 +14,7 @@ import {getDateWithSeparator} from '@/utils/date';
 import {validateAddPost} from '@/utils/validation';
 import {StackScreenProps} from '@react-navigation/stack';
 import {useState} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
@@ -34,7 +35,7 @@ function AddLocationScreen({route}: Props) {
     validate: validateAddPost,
   });
   const [openDate, setOpenDate] = useState(false);
-  const {hadleChangeImage} = useImagePicker();
+  const imagePicker = useImagePicker();
 
   const handleSubmit = () => {};
 
@@ -88,7 +89,13 @@ function AddLocationScreen({route}: Props) {
             setOpenDate(false);
           }}
         />
-        <ImageInput onChange={hadleChangeImage} />
+        <View style={{flexDirection: 'row'}}>
+          <ImageInput onChange={imagePicker.handleChangeImage} />
+          <PreviewImageList
+            imageUris={imagePicker.imageUris}
+            onDelete={imagePicker.delete}
+          />
+        </View>
       </ScrollView>
       <FixedBottomCTA label="저장" onPress={handleSubmit} />
     </>
