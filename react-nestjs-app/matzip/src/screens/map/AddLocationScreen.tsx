@@ -1,5 +1,6 @@
 import CustomButton from '@/components/CustomButton';
 import FixedBottomCTA from '@/components/FixedBottomCTA';
+import ImageInput from '@/components/ImageInput';
 import InputField from '@/components/InputField';
 import MarkerColorInput from '@/components/MarkerColorInput';
 import ScoreInput from '@/components/ScoreInput';
@@ -13,6 +14,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {useState} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
 import DatePicker from 'react-native-date-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type Props = StackScreenProps<MapStackParamList, 'AddLocation'>;
@@ -33,6 +35,17 @@ function AddLocationScreen({route}: Props) {
   });
   const [openDate, setOpenDate] = useState(false);
   const handleSubmit = () => {};
+
+  const hadleChangeImage = () => {
+    ImagePicker.openPicker({
+      mediaType: 'photo',
+      multiple: true,
+      includeBase64: true,
+      maxFiles: 5,
+    }).then(images => {
+      console.log(images);
+    });
+  };
   return (
     <>
       <ScrollView
@@ -83,6 +96,7 @@ function AddLocationScreen({route}: Props) {
             setOpenDate(false);
           }}
         />
+        <ImageInput onChange={hadleChangeImage} />
       </ScrollView>
       <FixedBottomCTA label="저장" onPress={handleSubmit} />
     </>
