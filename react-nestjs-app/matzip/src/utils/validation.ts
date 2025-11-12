@@ -47,11 +47,12 @@ function validateSignup(
   return signupErrors;
 }
 
-function validateAddPost(values: {title: string; date: Date}) {
+function validateAddPost(values: {title: string; date: Date; color: string}) {
   const errors = {
     title: '',
     description: '',
     date: '',
+    color: '',
   };
 
   if (values.title.trim() === '') {
@@ -59,6 +60,9 @@ function validateAddPost(values: {title: string; date: Date}) {
   }
   if (!values.date) {
     errors.date = '날짜를 선택해주세요';
+  }
+  if (!values.color) {
+    errors.color = '색상을 선택해주세요';
   }
   return errors;
 }

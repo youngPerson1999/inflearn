@@ -1,5 +1,7 @@
 import CustomButton from '@/components/CustomButton';
 import InputField from '@/components/InputField';
+import MarkerColorInput from '@/components/MarkerColorInput';
+import {colors} from '@/constants/colors';
 import useForm from '@/hooks/useForm';
 import useGetAddress from '@/hooks/useGetAddress';
 import {MapStackParamList} from '@/types/navigation';
@@ -16,7 +18,12 @@ function AddLocationScreen({route}: Props) {
   const {location} = route.params;
   const address = useGetAddress(location);
   const postForm = useForm({
-    initialValues: {title: '', description: '', date: new Date()},
+    initialValues: {
+      title: '',
+      description: '',
+      date: new Date(),
+      color: colors.PINK_400,
+    },
     validate: validateAddPost,
   });
   const [openDate, setOpenDate] = useState(false);
@@ -40,6 +47,10 @@ function AddLocationScreen({route}: Props) {
         error={postForm.errors.description}
         touched={postForm.touched.description}
         {...postForm.getTextInputProps('description')}
+      />
+      <MarkerColorInput
+        color={postForm.values.color}
+        onChangeColor={color => postForm.onChange('color', color)}
       />
       <DatePicker
         modal
