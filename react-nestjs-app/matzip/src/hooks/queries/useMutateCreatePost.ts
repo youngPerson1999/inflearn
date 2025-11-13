@@ -7,10 +7,23 @@ import {queryKeys} from '@/constants/key';
 function useMutateCreatePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
     mutationFn: createPost,
-    onSuccess: () => {
+    onSuccess: newData => {
       queryClient.invalidateQueries({
         queryKey: [queryKeys.MARKER, queryKeys.GET_MARKERS],
       });
+      // queryClient.setQueryData(
+      //   [queryKeys.MARKER, queryKeys.GET_MARKERS],
+      //   (oldData: any) => {
+      //     const newMarker = {
+      //       id: newData.id,
+      //       latitude: newData.latitude,
+      //       longitude: newData.longitude,
+      //       color: newData.color,
+      //       score: newData.score,
+      //     };
+      //     return oldData ? [...oldData, newMarker] : [newMarker];
+      //   },
+      // );
     },
     ...mutationOptions,
   });
