@@ -6,8 +6,8 @@ import {colors} from '@/constants/colors';
 import {MapStack} from './MapNavigation';
 import {FeedStack} from './FeedNavigation';
 import CalendarScreen from '@/screens/calendar/CalendarScreen';
-import DrawerButton from '@/components/DrawerButton';
-import CustomDrawerContent from '@/components/CustomDrawerContent';
+import DrawerButton from '@/components/common/DrawerButton';
+import CustomDrawerContent from '@/components/common/CustomDrawerContent';
 
 type DrawerIconName = 'map' | 'book' | 'calendar';
 

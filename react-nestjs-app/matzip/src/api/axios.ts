@@ -6,8 +6,12 @@ export const baseURLs = {
   android: 'http://10.0.2.2:3030',
 };
 
+export const getBaseURL = () => {
+  return Platform.OS === 'ios' ? baseURLs.ios : baseURLs.android;
+};
+
 const axiosInstance = axios.create({
-  baseURL: Platform.OS === 'ios' ? baseURLs.ios : baseURLs.android,
+  baseURL: getBaseURL(),
 });
 
 export default axiosInstance;

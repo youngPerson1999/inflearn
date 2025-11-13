@@ -1,7 +1,7 @@
-import CustomMarker from '@/components/CustomMarker';
-import DrawerButton from '@/components/DrawerButton';
-import MapIconButton from '@/components/MapIconButton';
-import MarkerModal from '@/components/MarkerModal';
+import CustomMarker from '@/components/common/CustomMarker';
+import DrawerButton from '@/components/common/DrawerButton';
+import MapIconButton from '@/components/map/MapIconButton';
+import MarkerModal from '@/components/map/MarkerModal';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
 import useGetMarkers from '@/hooks/queries/useGetMarkers';
@@ -110,7 +110,7 @@ function MapHomeScreen() {
         />
       </View>
       <MarkerModal
-        markerId={markerId}
+        markerId={markerId!}
         isVisible={markerModal.isVisible}
         hide={markerModal.hide}
       />
