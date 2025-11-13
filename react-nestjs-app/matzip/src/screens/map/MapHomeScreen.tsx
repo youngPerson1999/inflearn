@@ -3,6 +3,7 @@ import DrawerButton from '@/components/DrawerButton';
 import MapIconButton from '@/components/MapIconButton';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
+import useGetMarkers from '@/hooks/queries/useGetMarkers';
 import useMoveMapView from '@/hooks/useMoveMapView';
 import usePermission from '@/hooks/usePermission';
 import useUserLocation from '@/hooks/useUserLocation';
@@ -23,6 +24,7 @@ function MapHomeScreen() {
   const {userLocation, isUserLocationError} = useUserLocation();
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
+  const {data: markers = []} = useGetMarkers();
   usePermission('LOCATION');
 
   const handlePressUserLocation = () => {
@@ -52,6 +54,7 @@ function MapHomeScreen() {
     navigation.navigate('AddLocation', {
       location: selectedLocation,
     });
+    setSelectedLocation(null);
   };
   return (
     <>
@@ -76,6 +79,15 @@ function MapHomeScreen() {
           setSelectedLocation(nativeEvent.coordinate)
         }
         onRegionChangeComplete={handleChangeDelta}>
+        {markers.map(({id, color, score, ...coordinate}) => (
+          <CustomMarker
+            key={id}
+            color={color}
+            coordinate={coordinate}
+            score={score}
+            onPress={() => handlePressMarker(coordinate)}
+          />
+        ))}
         {selectedLocation && (
           <CustomMarker
             color={colors.PINK_400}

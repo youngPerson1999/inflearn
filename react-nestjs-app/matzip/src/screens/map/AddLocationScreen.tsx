@@ -6,12 +6,14 @@ import MarkerColorInput from '@/components/MarkerColorInput';
 import PreviewImageList from '@/components/PreviewImageList';
 import ScoreInput from '@/components/ScoreInput';
 import {colors} from '@/constants/colors';
+import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
 import useForm from '@/hooks/useForm';
 import useGetAddress from '@/hooks/useGetAddress';
 import useImagePicker from '@/hooks/useImagePicker';
 import {MapStackParamList} from '@/types/navigation';
 import {getDateWithSeparator} from '@/utils/date';
 import {validateAddPost} from '@/utils/validation';
+import {useNavigation} from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
@@ -22,6 +24,7 @@ type Props = StackScreenProps<MapStackParamList, 'AddLocation'>;
 
 function AddLocationScreen({route}: Props) {
   const {location} = route.params;
+  const naviagation = useNavigation();
   const inset = useSafeAreaInsets();
   const address = useGetAddress(location);
   const postForm = useForm({
@@ -36,8 +39,23 @@ function AddLocationScreen({route}: Props) {
   });
   const [openDate, setOpenDate] = useState(false);
   const imagePicker = useImagePicker();
+  const createPost = useMutateCreatePost();
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    createPost.mutate(
+      {
+        address,
+        ...location,
+        ...postForm.values,
+        imageUris: imagePicker.imageUris,
+      },
+      {
+        onSuccess: () => {
+          naviagation.goBack();
+        },
+      },
+    );
+  };
 
   return (
     <>
