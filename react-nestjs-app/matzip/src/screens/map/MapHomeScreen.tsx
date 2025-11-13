@@ -1,9 +1,11 @@
 import CustomMarker from '@/components/CustomMarker';
 import DrawerButton from '@/components/DrawerButton';
 import MapIconButton from '@/components/MapIconButton';
+import MarkerModal from '@/components/MarkerModal';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
 import useGetMarkers from '@/hooks/queries/useGetMarkers';
+import useModal from '@/hooks/useModal';
 import useMoveMapView from '@/hooks/useMoveMapView';
 import usePermission from '@/hooks/usePermission';
 import useUserLocation from '@/hooks/useUserLocation';
@@ -21,8 +23,10 @@ type Navigation = StackNavigationProp<MapStackParamList>;
 function MapHomeScreen() {
   const navigation = useNavigation<Navigation>();
   const inset = useSafeAreaInsets();
+  const [markerId, setMarkerId] = useState<number>();
   const {userLocation, isUserLocationError} = useUserLocation();
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
+  const markerModal = useModal();
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const {data: markers = []} = useGetMarkers();
   usePermission('LOCATION');
@@ -39,8 +43,10 @@ function MapHomeScreen() {
     moveMapView(userLocation!);
   };
 
-  const handlePressMarker = (coordinate: LatLng) => {
+  const handlePressMarker = (coordinate: LatLng, id: number) => {
     moveMapView(coordinate);
+    setMarkerId(id);
+    markerModal.show();
   };
 
   const handlePressAddPost = () => {
@@ -85,7 +91,7 @@ function MapHomeScreen() {
             color={color}
             coordinate={coordinate}
             score={score}
-            onPress={() => handlePressMarker(coordinate)}
+            onPress={() => handlePressMarker(coordinate, id)}
           />
         ))}
         {selectedLocation && (
@@ -93,7 +99,6 @@ function MapHomeScreen() {
             color={colors.PINK_400}
             coordinate={selectedLocation}
             score={3}
-            onPress={() => handlePressMarker(selectedLocation)}
           />
         )}
       </MapView>
@@ -104,6 +109,11 @@ function MapHomeScreen() {
           onPress={handlePressUserLocation}
         />
       </View>
+      <MarkerModal
+        markerId={markerId}
+        isVisible={markerModal.isVisible}
+        hide={markerModal.hide}
+      />
     </>
   );
 }
